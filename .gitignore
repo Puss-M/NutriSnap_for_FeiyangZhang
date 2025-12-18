@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local scripts (不需要上传到 GitHub)
+launcher.py
+debug_import.py
+fix_and_run.py
+test_import.py
+run_*.py
+run_*.bat
+install_*.bat
+
+# Logs
+*.log
