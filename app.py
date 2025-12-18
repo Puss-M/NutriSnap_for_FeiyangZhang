@@ -186,16 +186,16 @@ def main():
         col1, col2 = st.columns(2)
         
         with col1:
-            gender = st.selectbox("性别", ["男", "女"])
-            age = st.number_input("年龄", min_value=10, max_value=100, value=25)
-            weight = st.number_input("体重 (kg)", min_value=30.0, max_value=200.0, value=70.0, step=0.5)
+            gender = st.selectbox("性别", ["男", "女"], index=1)  # 默认女性
+            age = st.number_input("年龄", min_value=10, max_value=100, value=20)  # 默认20岁
+            weight = st.number_input("体重 (kg)", min_value=30.0, max_value=200.0, value=55.0, step=0.5)  # 默认55kg
         
         with col2:
-            height = st.number_input("身高 (cm)", min_value=100, max_value=250, value=170)
+            height = st.number_input("身高 (cm)", min_value=100, max_value=250, value=164)  # 默认164cm
             activity = st.selectbox("活动水平", 
                 ["久坐 (几乎不运动)", "轻度活动 (每周1-3次)", "中度活动 (每周3-5次)", 
-                 "高度活动 (每周6-7次)", "专业运动员"])
-            goal = st.selectbox("健身目标", ["增肌 💪", "减脂 🔥", "维持 ⚖️"])
+                 "高度活动 (每周6-7次)", "专业运动员"], index=2)  # 默认中度活动
+            goal = st.selectbox("健身目标", ["增肌 💪", "减脂 🔥", "维持 ⚖️"], index=0)  # 默认增肌
         
         # 实时BMI计算
         st.divider()
