@@ -1,0 +1,35 @@
+{
+  "name": "NutriSnap AI - 智能饮食分析",
+  "short_name": "NutriSnap",
+  "description": "基于多模态 AI 的智能饮食分析系统，帮助你追踪营养、达成健身目标",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["health", "fitness", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "营养追踪",
+      "short_name": "追踪",
+      "description": "快速记录饮食",
+      "url": "/?tab=tracking",
+      "icons": []
+    }
+  ]
+}

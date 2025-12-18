@@ -8,8 +8,8 @@ venv/
 env/
 ENV/
 
-# Streamlit
-.streamlit/
+# Streamlit secrets (but allow config.toml)
+.streamlit/secrets.toml
 
 # IDE
 .vscode/

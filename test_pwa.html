@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10b981" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="NutriSnap" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
+    <title>NutriSnap PWA 测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .container {
+        background: white;
+        border-radius: 24px;
+        padding: 48px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        color: #10b981;
+        font-size: 2.5rem;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+      .subtitle {
+        color: #6b7280;
+        text-align: center;
+        margin-bottom: 32px;
+        font-size: 1.1rem;
+      }
+      .status-card {
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        padding: 16px;
+        margin: 16px 0;
+        border-radius: 8px;
+      }
+      .status-title {
+        font-weight: 600;
+        color: #047857;
+        margin-bottom: 8px;
+      }
+      .status-content {
+        color: #374151;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+      }
+      .icon {
+        width: 128px;
+        height: 128px;
+        margin: 0 auto 32px;
+        display: block;
+        border-radius: 24px;
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+      }
+      .install-btn {
+        display: none;
+        width: 100%;
+        padding: 16px 32px;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 24px;
+        transition: background 0.3s;
+      }
+      .install-btn:hover {
+        background: #059669;
+      }
+      .install-btn.show {
+        display: block;
+      }
+      .success {
+        color: #10b981;
+      }
+      .error {
+        color: #ef4444;
+      }
+      .info {
+        background: #eff6ff;
+        border-left-color: #3b82f6;
+      }
+      .info .status-title {
+        color: #1d4ed8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="/static/icons/icon-192x192.png" alt="NutriSnap" class="icon" />
+      <h1>🍎 NutriSnap AI</h1>
+      <p class="subtitle">PWA 功能测试页面</p>
+
+      <div class="status-card">
+        <div class="status-title">Service Worker 状态</div>
+        <div class="status-content" id="sw-status">检测中...</div>
+      </div>
+
+      <div class="status-card">
+        <div class="status-title">Manifest 状态</div>
+        <div class="status-content" id="manifest-status">检测中...</div>
+      </div>
+
+      <div class="status-card info">
+        <div class="status-title">📱 安装说明</div>
+        <div class="status-content">
+          • <strong>Chrome/Edge:</strong> 点击地址栏的安装图标 (⊕)<br />
+          • <strong>iOS Safari:</strong> 点击分享按钮 → 添加到主屏幕<br />
+          • <strong>Android:</strong> 菜单 → 安装应用
+        </div>
+      </div>
+
+      <button class="install-btn" id="install-btn">📥 安装 NutriSnap</button>
+
+      <div class="status-card" style="margin-top: 24px">
+        <div class="status-title">控制台日志</div>
+        <div class="status-content" id="console-log"></div>
+      </div>
+    </div>
+
+    <script>
+      const log = (msg, type = "info") => {
+        const logEl = document.getElementById("console-log");
+        const time = new Date().toLocaleTimeString();
+        const color =
+          type === "success"
+            ? "#10b981"
+            : type === "error"
+            ? "#ef4444"
+            : "#6b7280";
+        logEl.innerHTML += `<div style="color: ${color}; margin: 4px 0;">[${time}] ${msg}</div>`;
+        console.log(`[PWA] ${msg}`);
+      };
+
+      // 检测Service Worker
+      if ("serviceWorker" in navigator) {
+        document.getElementById("sw-status").innerHTML =
+          '✅ <span class="success">支持 Service Worker</span>';
+        log("浏览器支持 Service Worker", "success");
+
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((registration) => {
+            log(`Service Worker 注册成功: ${registration.scope}`, "success");
+            document.getElementById("sw-status").innerHTML =
+              '✅ <span class="success">Service Worker 已注册</span>';
+          })
+          .catch((error) => {
+            log(`Service Worker 注册失败: ${error}`, "error");
+            document.getElementById("sw-status").innerHTML =
+              '❌ <span class="error">注册失败: ' + error.message + "</span>";
+          });
+      } else {
+        document.getElementById("sw-status").innerHTML =
+          '❌ <span class="error">不支持 Service Worker</span>';
+        log("浏览器不支持 Service Worker", "error");
+      }
+
+      // 检测Manifest
+      fetch("/manifest.json")
+        .then((response) => response.json())
+        .then((manifest) => {
+          document.getElementById(
+            "manifest-status"
+          ).innerHTML = `✅ <span class="success">已加载: ${manifest.name}</span>`;
+          log(`Manifest 加载成功: ${manifest.name}`, "success");
+        })
+        .catch((error) => {
+          document.getElementById("manifest-status").innerHTML =
+            '❌ <span class="error">加载失败</span>';
+          log(`Manifest 加载失败: ${error}`, "error");
+        });
+
+      // PWA安装提示
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById("install-btn").classList.add("show");
+        log("PWA 安装提示可用", "success");
+      });
+
+      document
+        .getElementById("install-btn")
+        .addEventListener("click", async () => {
+          if (!deferredPrompt) {
+            log("安装提示不可用（可能已安装或浏览器不支持）", "error");
+            return;
+          }
+
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          log(
+            `用户选择: ${outcome}`,
+            outcome === "accepted" ? "success" : "info"
+          );
+          deferredPrompt = null;
+          document.getElementById("install-btn").classList.remove("show");
+        });
+
+      // 检测是否已安装
+      window.addEventListener("appinstalled", () => {
+        log("🎉 NutriSnap 已成功安装！", "success");
+      });
+
+      // 检测是否在独立模式运行
+      if (window.matchMedia("(display-mode: standalone)").matches) {
+        log("✨ 当前在独立应用模式运行", "success");
+      }
+    </script>
+  </body>
+</html>

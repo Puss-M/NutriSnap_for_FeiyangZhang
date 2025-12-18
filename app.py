@@ -8,6 +8,44 @@ import json
 # 设置页面配置
 st.set_page_config(page_title="NutriSnap AI", layout="wide", initial_sidebar_state="expanded")
 
+# PWA 配置 - 注入必要的 HTML 头部
+pwa_html = """
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#10b981" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="NutriSnap" />
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script>
+  // 注册 Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('PWA: Service Worker registered successfully:', registration.scope);
+        })
+        .catch(error => {
+          console.log('PWA: Service Worker registration failed:', error);
+        });
+    });
+  }
+
+  // PWA 安装提示
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('PWA: Install prompt available');
+  });
+</script>
+"""
+
+# 使用 Streamlit 组件注入 HTML
+import streamlit.components.v1 as components
+components.html(pwa_html, height=0)
+
 # 模拟健身冷知识库
 TIPS = [
     "你知道吗？100g 熟鸡胸肉约含有 30g 蛋白质。",
