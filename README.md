@@ -1,4 +1,4 @@
-# 🍎 NutriSnap AI
+# 🍎 NutriSnap AI-专门为feiyangzhang定制，感谢她的支持
 
 基于多模态 AI 的智能饮食分析系统 - 个性化营养管理助手
 
@@ -34,7 +34,7 @@
 
 🌐 部署在 Streamlit Cloud 上，无需本地安装即可使用！
 
-访问链接：`https://your-app.streamlit.app`（部署后更新此链接）
+访问链接：`[https://your-app.streamlit.app](https://nutrisnap-ngxtyhruddnxebhgo4z8k3.streamlit.app/)`（部署后更新此链接）
 
 ## 本地运行
 
