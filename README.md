@@ -1,5 +1,9 @@
 # 🍎 NutriSnap AI-专门为feiyangzhang定制，感谢她的支持
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-Flask-3776AB.svg?logo=python&logoColor=white)](requirements.txt)
+[![PWA](https://img.shields.io/badge/PWA-installable-5A0FC8.svg?logo=pwa)](manifest.json)
+
 基于多模态 AI 的智能饮食分析系统 - 个性化营养管理助手
 
 ## ✨ 核心功能
